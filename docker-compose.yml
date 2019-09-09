@@ -1,5 +1,6 @@
 version: "3"
 
+#### docker network create web
 #### docker-compose up -d
 
 services:
@@ -21,6 +22,8 @@ services:
     labels:
       - traefik.enable=true
       - "traefik.frontend.rule=Host:traefik2.grinnell.edu"
+## I've had NO luck trying to get Traefik to respond at a "/path" address, like https://omeka-s.grinnell.edu/traefik.
+## So the traefik.frontend.rule above will have to suffice for now, and the rules that follow should remain commented out.
 #      - "traefik.frontend.rule=PathPrefixStrip:/traefik"
 #      - "traefik.frontend.redirect.regex=^(.*)/traefik$$"
 #      - "traefik.frontend.redirect.replacement=$$1/traefik/"
@@ -53,7 +56,10 @@ services:
     image: emilevauge/whoami
     labels:
       - "traefik.enable=true"
-      - "traefik.frontend.rule=Host:omeka-s.grinnell.edu"
+      - "traefik.frontend.rule=PathPrefixStrip:/whoami"
+      - "traefik.frontend.redirect.regex=^(.*)/whoami$$"
+      - "traefik.frontend.redirect.replacement=$$1/whoami/"
+      - "traefik.frontend.rule=PathPrefix:/whoami;ReplacePathRegex: ^/whoami/(.*) /$$1"
       - "traefik.frontend.passHostHeader=true"
       - "traefik.frontend.headers.SSLRedirect=true"
     networks:
@@ -68,5 +74,4 @@ networks:
 
 volumes:
   portainer-data:
-
 
