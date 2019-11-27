@@ -15,13 +15,13 @@ services:
       - "443:443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /opt/dockerized-server/data/traefik.toml:/traefik.toml
-      - /opt/dockerized-server/data/acme.json:/acme.json
+      - ./data/traefik.toml:/traefik.toml
+      - ./data/acme.json:/acme.json
     networks:
       - web
     labels:
       - traefik.enable=true
-      - "traefik.frontend.rule=Host:traefik2.grinnell.edu"
+      - "traefik.frontend.rule=Host:traefik.localdomain"
 ## I've had NO luck trying to get Traefik to respond at a "/path" address, like https://omeka-s.grinnell.edu/traefik.
 ## So the traefik.frontend.rule above will have to suffice for now, and the rules that follow should remain commented out.
 #      - "traefik.frontend.rule=PathPrefixStrip:/traefik"
@@ -74,4 +74,3 @@ networks:
 
 volumes:
   portainer-data:
-
