@@ -47,7 +47,6 @@ onHostRule = true
 
 [docker]
 ### domain = "your_domain"
-domain = "omeka-s.grinnell.edu"
+domain = "dgdockerx.grinnell.edu"
 watch = true
 network = "web"
-
