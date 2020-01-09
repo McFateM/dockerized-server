@@ -12,7 +12,7 @@ A new `dgdockerX` branch was created on 9-Jan-2020 for purposes of spinning up _
 The DNS and stack configurations on _DGDockerX_ should yield the following services and addresses...
 
   - Omeka-S v2.x @ https://omkea-wmiX.grinnell.edu
-  - Traefik dashboard @ http://dgdockerx.grinnell.edu
+  - Traefik dashboard @ http://traefikx.grinnell.edu
   - Portainer dashboard @ https://dgdockerx.grinnell.edu/portainer
   - Solr admin dashboard @ https://testx.grinnell.edu
   - PHPMyAdmin dashboard @ https://textlinex.grinnell.edu     
