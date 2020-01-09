@@ -16,4 +16,5 @@ The DNS and stack configurations on _DGDockerX_ should yield the following servi
   - Portainer dashboard @ https://dgdockerx.grinnell.edu/portainer
   - Solr admin dashboard @ https://testx.grinnell.edu
   - PHPMyAdmin dashboard @ https://textlinex.grinnell.edu     
-  - WhoAmI report @ https://dgdockerX.grinnell.edu/whoami             
+  - WhoAmI report @ https://dgdockerX.grinnell.edu/whoami    
+  - MediaWiki @ https://ohscribex.grinnell.edu                               
