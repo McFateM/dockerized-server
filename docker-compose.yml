@@ -105,7 +105,7 @@ services:
       #- "9010:9000" ## Remap to avoid conflicts on systems/servers with portainer already running.
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      #- portainer-data:/data
+      - portainer-data:/data
 
     ## traefik.frontend.... bits per
     ##   https://github.com/pascalandy/docker-stack-this/blob/master/traefik_stack5/toolportainer.yml#L55
@@ -130,3 +130,12 @@ services:
       - web
       #- webgateway
       #- internal
+
+networks:
+  web:
+    external: true
+  internal:
+    external: false
+
+volumes:
+  portainer-data:
