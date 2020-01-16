@@ -1,11 +1,5 @@
-## docker-compose.yml for launch of Traefik, Watchtower and Portainer, plus WhoAmI added from "dockerized-server"
-## This is largely from /opt/docker-compose.yml on my summitt-dweller-DO-docker droplet
-
-## Attention! To launch these services in support of other apps, be sure you...
-##   docker network create web
-##   cd /opt/dockerized-server; git checkout digital-ocean;
-##   docker-compose up -d
-
+## docker-compose.yml for launch of Traefik, Watchtower and Portainer, plus WhoAmI added from "dockerized-container"
+## Lifted largely from /opt/docker-compose.yml on my summitt-dweller-DO-docker droplet
 
 ##-- Notes ---------------------------------------------------------------------
 ## 16-Jan-2020  Added WhoAmI service from the "dockerized-server" project and preparing summitt-dweller-DO-docker to host more apps, specifically a staging instance of the Omeka-S v2.x stack from GC.
@@ -28,9 +22,9 @@
 
 version: '3.2'
 
-#networks:
-#  webgateway:
-#    driver: bridge
+networks:
+  webgateway:
+    driver: bridge
 
 services:
 
@@ -64,8 +58,7 @@ services:
       traefik.port: 8080
 
     networks:
-      - web
-      #- webgateway
+      - webgateway
     ports:
       - "80:80"
       - "443:443"
@@ -98,14 +91,13 @@ services:
     image: portainer/portainer
     command: --admin-password "$$2y$$05$$pJEzHJBzfoYYS7/hGAedcOP8XdsqNXE7j.LHFBVjueASOqOvvjGOy" -H unix:///var/run/docker.sock
     networks:
-      - web
-      #- webgateway
+      - webgateway
     ports:
       - "9000:9000"
       #- "9010:9000" ## Remap to avoid conflicts on systems/servers with portainer already running.
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      #- portainer-data:/data
+#      - portainer-data:/data
 
     ## traefik.frontend.... bits per
     ##   https://github.com/pascalandy/docker-stack-this/blob/master/traefik_stack5/toolportainer.yml#L55
@@ -127,6 +119,5 @@ services:
       - "traefik.frontend.passHostHeader=true"
       - "traefik.frontend.headers.SSLRedirect=true"
     networks:
-      - web
-      #- webgateway
+      - webgateway
       #- internal
