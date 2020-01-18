@@ -80,9 +80,10 @@ services:
   watchtower:
     container_name: watchtower
     image: containrrr/watchtower
+    command: --cleanup --label-enable
     labels:
       - traefik.enable=false
-      - label-enable=true
+      #- label-enable=true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
