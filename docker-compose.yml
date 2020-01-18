@@ -8,6 +8,7 @@
 
 
 ##-- Notes ---------------------------------------------------------------------
+## 18-Jan-2020  Switching from v2tec/watchtower to containrrr/watchtower
 ## 16-Jan-2020  Added WhoAmI service from the "dockerized-server" project and preparing summitt-dweller-DO-docker to host more apps, specifically a staging instance of the Omeka-S v2.x stack from GC.
 ## 17-Sep-2019  Applying same fix as documented in https://static.grinnell.edu/blogs/McFateM/posts/045-repairing-static.grinnell.edu/
 ## 02-May-2019  Restored Portainer's .env variables.
@@ -78,7 +79,7 @@ services:
 
   watchtower:
     container_name: watchtower
-    image: v2tec/watchtower
+    image: containrrr/watchtower
     labels:
       - traefik.enable=false
       - label-enable=true
