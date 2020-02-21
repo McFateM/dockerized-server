@@ -10,6 +10,8 @@
 ##   ALWAYS uses summitt.dweller@gmail.com and GMail's SMTP to dispatch them.
 
 ##-- Notes ---------------------------------------------------------------------
+## 21-Feb-2020  Moving `nonsecuresmtp` email address in `.env` to `Mx0b-001c8a01.pphosted.com` as directed in
+##   https://help.grinnell.edu/nav_to.do?uri=incident.do?sys_id=74c033c01bb68c1060f47449cc4bcb3c%26sysparm_view=ess
 ## 30-Jan-2020  Recent changes make the host's ./data directory obsolete, so it is being removed now.
 ## 29-Jan-2020  Making viable for static.grinnell.edu with additon of .env variables
 ## 18-Jan-2020  Switching from v2tec/watchtower to containrrr/watchtower
@@ -94,11 +96,12 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       WATCHTOWER_NOTIFICATIONS: "email"
-      WATCHTOWER_NOTIFICATION_EMAIL_FROM: "summitt.dweller@gmail.com"
-      WATCHTOWER_NOTIFICATION_EMAIL_TO: "${NOTIFICATION_EMAIL_ADDRESS"
-      WATCHTOWER_NOTIFICATION_EMAIL_SERVER: "smtp.gmail.com"
-      WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER: "summitt.dweller@gmail.com"
-      WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD: "hwhqllmxobtqexyv"
+      WATCHTOWER_NOTIFICATION_EMAIL_SERVER_TLS_SKIP_VERIFY: ${NOTIFICATION_SMTP_SKIP_TLS}
+      WATCHTOWER_NOTIFICATION_EMAIL_FROM: "${NOTIFICATION_FROM_ADDRESS}"
+      WATCHTOWER_NOTIFICATION_EMAIL_TO: "${NOTIFICATION_EMAIL_ADDRESS}"
+      WATCHTOWER_NOTIFICATION_EMAIL_SERVER: "${NOTIFICATION_SMTP_SERVER}"
+      WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER: "${NOTIFICATION_SMTP_USER}"
+      WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD: "${NOTIFICATION_SMTP_PASSWORD}"
       WATCHTOWER_NOTIFICATION_EMAIL_DELAY: 2
 
   portainer:
