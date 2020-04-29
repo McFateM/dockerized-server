@@ -3,13 +3,13 @@
 
 ## Attention! To launch these services in support of other apps, be sure you modify the .env file and...
 ##   docker network create web
-##   cd /opt/dockerized-server; git checkout master
+##   cd /opt/docker-traefik2-host; git checkout master
 ##   docker-compose up -d
 
-## Also note that this scheme dispatches notification emails to ${NOTIFICATION_EMAIL_ADDRESS} and it
-##   ALWAYS uses summitt.dweller@gmail.com and GMail's SMTP to dispatch them.
+## Also note that this scheme dispatches notification emails to ${NOTIFICATION_EMAIL_ADDRESS}
 
 ##-- Notes ---------------------------------------------------------------------
+## 29-Apr-2020  Attempting shift to Traefik v2.2 w/ existing ACME HTTP-01 challenge on static.grinnell.edu
 ## 21-Feb-2020  Moving `nonsecuresmtp` email address in `.env` to `Mx0b-001c8a01.pphosted.com` as directed in
 ##   https://help.grinnell.edu/nav_to.do?uri=incident.do?sys_id=74c033c01bb68c1060f47449cc4bcb3c%26sysparm_view=ess
 ## 30-Jan-2020  Recent changes make the host's ./data directory obsolete, so it is being removed now.
@@ -37,19 +37,16 @@
 
 version: '3.2'
 
-#networks:
-#  webgateway:
-#    driver: bridge
-
 services:
 
   proxy:
     container_name: traefik_proxy
-    image: traefik:v1.7-alpine
+    # image: traefik:v1.7-alpine
+    image: traefik:latest
     command: >-
       --docker --logLevel=INFO \
       --acme \
-      --acme.caserver="https://acme-v02.api.letsencrypt.org/directory" \
+      --acme.caserver="https://acme-staging-v02.api.letsencrypt.org/directory" \
       --acme.acmelogging \
       --acme.dnschallenge=false \
       --acme.entrypoint="https" \
@@ -66,7 +63,7 @@ services:
 
     labels:
       traefik.enable: true
-      traefik.frontend.auth.basic: "admin:$$2y$$05$$pJEzHJBzfoYYS7/hGAedcOP8XdsqNXE7j.LHFBVjueASOqOvvjGOy"
+      traefik.frontend.auth.basic.users: "admin:$$2y$$05$$pJEzHJBzfoYYS7/hGAedcOP8XdsqNXE7j.LHFBVjueASOqOvvjGOy"
       traefik.frontend.redirect.regex: "^(.*)/traefik$$"
       traefik.frontend.redirect.replacement: "$$1/traefik/"
       traefik.frontend.rule: "PathPrefix:/traefik;ReplacePathRegex: ^/traefik/(.*) /$$1"
@@ -74,7 +71,6 @@ services:
 
     networks:
       - web
-      #- webgateway
     ports:
       - "80:80"
       - "443:443"
@@ -91,7 +87,6 @@ services:
     command: --cleanup --label-enable
     labels:
       - traefik.enable=false
-      #- label-enable=true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
@@ -110,7 +105,6 @@ services:
     command: --admin-password "$$2y$$05$$pJEzHJBzfoYYS7/hGAedcOP8XdsqNXE7j.LHFBVjueASOqOvvjGOy" -H unix:///var/run/docker.sock
     networks:
       - web
-      #- webgateway
     ports:
       - "9000:9000"
       #- "9010:9000" ## Remap to avoid conflicts on systems/servers with portainer already running.
@@ -140,8 +134,6 @@ services:
       - "traefik.frontend.headers.SSLRedirect=true"
     networks:
       - web
-      #- webgateway
-      #- internal
 
 networks:
   web:
