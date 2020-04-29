@@ -8,6 +8,7 @@
 
 
 ##-- Notes ---------------------------------------------------------------------
+## 13-Mar-2020  WhoAmI is grabbing port 80 so I'm commenting it out.
 ## 18-Jan-2020  Switching from v2tec/watchtower to containrrr/watchtower
 ## 16-Jan-2020  Added WhoAmI service from the "dockerized-server" project and preparing summitt-dweller-DO-docker to host more apps, specifically a staging instance of the Omeka-S v2.x stack from GC.
 ## 17-Sep-2019  Applying same fix as documented in https://static.grinnell.edu/blogs/McFateM/posts/045-repairing-static.grinnell.edu/
@@ -118,21 +119,21 @@ services:
       traefik.frontend.redirect.replacement: "$$1/portainer/"
       traefik.frontend.rule: "PathPrefix:/portainer;ReplacePathRegex: ^/portainer/(.*) /$$1"
 
-  whoami:
-    container_name: whoami
-    image: emilevauge/whoami
-    labels:
-      - "traefik.enable=true"
-      - "traefik.frontend.rule=PathPrefixStrip:/whoami"
-      - "traefik.frontend.redirect.regex=^(.*)/whoami$$"
-      - "traefik.frontend.redirect.replacement=$$1/whoami/"
-      - "traefik.frontend.rule=PathPrefix:/whoami;ReplacePathRegex: ^/whoami/(.*) /$$1"
-      - "traefik.frontend.passHostHeader=true"
-      - "traefik.frontend.headers.SSLRedirect=true"
-    networks:
-      - web
-      #- webgateway
-      #- internal
+#  whoami:
+#    container_name: whoami
+#    image: emilevauge/whoami
+#    labels:
+#      - "traefik.enable=true"
+#      - "traefik.frontend.rule=PathPrefixStrip:/whoami"
+#      - "traefik.frontend.redirect.regex=^(.*)/whoami$$"
+#      - "traefik.frontend.redirect.replacement=$$1/whoami/"
+#      - "traefik.frontend.rule=PathPrefix:/whoami;ReplacePathRegex: ^/whoami/(.*) /$$1"
+#      - "traefik.frontend.passHostHeader=true"
+#      - "traefik.frontend.headers.SSLRedirect=true"
+#    networks:
+#      - web
+#      #- webgateway
+#      #- internal
 
 networks:
   web:
