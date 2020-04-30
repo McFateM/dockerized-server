@@ -63,10 +63,11 @@ services:
 
     labels:
       traefik.enable: true
-      traefik.frontend.auth.basic.users: "admin:$$2y$$05$$pJEzHJBzfoYYS7/hGAedcOP8XdsqNXE7j.LHFBVjueASOqOvvjGOy"
-      traefik.frontend.redirect.regex: "^(.*)/traefik$$"
-      traefik.frontend.redirect.replacement: "$$1/traefik/"
-      traefik.frontend.rule: "PathPrefix:/traefik;ReplacePathRegex: ^/traefik/(.*) /$$1"
+      traefik.http.middlewares.auth.basic.users: "admin:$$2y$$05$$pJEzHJBzfoYYS7/hGAedcOP8XdsqNXE7j.LHFBVjueASOqOvvjGOy"
+      traefik.http.routers.router0.redirect.regex: "^(.*)/traefik$$"
+      traefik.http.routers.router0.redirect.replacement: "$$1/traefik/"
+      traefik.http.routers.router0.middlewares: "auth"
+      traefik.http.routers.router0.rule: PathPrefix('/traefik') && ReplacePathRegex('^/traefik/(.*) /$$1')
       traefik.port: 8080
 
     networks:
@@ -117,23 +118,23 @@ services:
     labels:
       traefik.port: 9000
       traefik.enable: true
-      traefik.frontend.redirect.regex: "^(.*)/portainer$$"
-      traefik.frontend.redirect.replacement: "$$1/portainer/"
-      traefik.frontend.rule: "PathPrefix:/portainer;ReplacePathRegex: ^/portainer/(.*) /$$1"
+      traefik.http.routers.router0.redirect.regex: "^(.*)/portainer$$"
+      traefik.http.routers.router0.redirect.replacement: "$$1/portainer/"
+      traefik.http.routers.router0.rule: PathPrefix('/portainer') && ReplacePathRegex('^/portainer/(.*) /$$1')
 
-  whoami:
-    container_name: whoami
-    image: emilevauge/whoami
-    labels:
-      - "traefik.enable=true"
-      - "traefik.frontend.rule=PathPrefixStrip:/whoami"
-      - "traefik.frontend.redirect.regex=^(.*)/whoami$$"
-      - "traefik.frontend.redirect.replacement=$$1/whoami/"
-      - "traefik.frontend.rule=PathPrefix:/whoami;ReplacePathRegex: ^/whoami/(.*) /$$1"
-      - "traefik.frontend.passHostHeader=true"
-      - "traefik.frontend.headers.SSLRedirect=true"
-    networks:
-      - web
+  # whoami:
+  #   container_name: whoami
+  #   image: emilevauge/whoami
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.frontend.rule=PathPrefixStrip:/whoami"
+  #     - "traefik.frontend.redirect.regex=^(.*)/whoami$$"
+  #     - "traefik.frontend.redirect.replacement=$$1/whoami/"
+  #     - "traefik.frontend.rule=PathPrefix:/whoami;ReplacePathRegex: ^/whoami/(.*) /$$1"
+  #     - "traefik.frontend.passHostHeader=true"
+  #     - "traefik.frontend.headers.SSLRedirect=true"
+  #   networks:
+  #     - web
 
 networks:
   web:
