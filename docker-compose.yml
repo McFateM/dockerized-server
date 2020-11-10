@@ -9,6 +9,7 @@
 ## Also note that this scheme dispatches notification emails to ${NOTIFICATION_EMAIL_ADDRESS}
 
 ##-- Notes ---------------------------------------------------------------------
+## 10-Nov-2020  Setting WATCHTOWER_NOTIFICATIONS_LEVEL to "warn".  The old default of "info" was sending too many emails!
 ## 29-Apr-2020  Attempting shift to Traefik v2.2 w/ existing ACME HTTP-01 challenge on static.grinnell.edu
 ## 21-Feb-2020  Moving `nonsecuresmtp` email address in `.env` to `Mx0b-001c8a01.pphosted.com` as directed in
 ##   https://help.grinnell.edu/nav_to.do?uri=incident.do?sys_id=74c033c01bb68c1060f47449cc4bcb3c%26sysparm_view=ess
@@ -99,6 +100,7 @@ services:
       WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER: "${NOTIFICATION_SMTP_USER}"
       WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD: "${NOTIFICATION_SMTP_PASSWORD}"
       WATCHTOWER_NOTIFICATION_EMAIL_DELAY: 2
+      WATCHTOWER_NOTIFICATIONS_LEVEL: "warn"
 
   portainer:
     container_name: portainer
