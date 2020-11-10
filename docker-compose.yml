@@ -10,6 +10,7 @@
 ##   ALWAYS uses summitt.dweller@gmail.com and GMail's SMTP to dispatch them.
 
 ##-- Notes ---------------------------------------------------------------------
+## 10-Nov-2020  Setting WATCHTOWER_NOTIFICATIONS_LEVEL to "warn".  The old default of "info" was sending too many emails!
 ## 13-Mar-2020  WhoAmI is grabbing port 80 so I'm commenting it out.
 ## 30-Jan-2020  Recent changes make the host's ./data directory obsolete, so it is being removed now.
 ## 29-Jan-2020  Making viable for static.grinnell.edu with additon of .env variables
@@ -96,11 +97,12 @@ services:
     environment:
       WATCHTOWER_NOTIFICATIONS: "email"
       WATCHTOWER_NOTIFICATION_EMAIL_FROM: "summitt.dweller@gmail.com"
-      WATCHTOWER_NOTIFICATION_EMAIL_TO: "${NOTIFICATION_EMAIL_ADDRESS"
+      WATCHTOWER_NOTIFICATION_EMAIL_TO: "${NOTIFICATION_EMAIL_ADDRESS}"
       WATCHTOWER_NOTIFICATION_EMAIL_SERVER: "smtp.gmail.com"
       WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER: "summitt.dweller@gmail.com"
       WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD: "hwhqllmxobtqexyv"
       WATCHTOWER_NOTIFICATION_EMAIL_DELAY: 2
+      WATCHTOWER_NOTIFICATIONS_LEVEL: "warn"
 
   portainer:
     container_name: portainer
